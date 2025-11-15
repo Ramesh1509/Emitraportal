@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Modern Login Page</title>
+
+<!-- SWEETALERT -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+/* SAME CSS — NO CHANGE */
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+body{height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);overflow:hidden}
+.circle{position:absolute;border-radius:50%;background:rgba(255,255,255,0.08);animation:float 6s infinite ease-in-out}
+.circle:nth-child(1){width:180px;height:180px;top:10%;left:10%}
+.circle:nth-child(2){width:120px;height:120px;bottom:15%;right:20%;animation-delay:1s}
+.circle:nth-child(3){width:250px;height:250px;top:40%;right:-60px;animation-delay:2s}
+@keyframes float{0%,100%{transform:translateY(0px)}50%{transform:translateY(-20px)}}
+.login-box{width:360px;padding:40px;backdrop-filter:blur(18px);background:rgba(255,255,255,0.08);border-radius:18px;box-shadow:0 0 35px rgba(255,255,255,0.15);position:relative;z-index:10;border:1px solid rgba(255,255,255,0.2);animation:fadeIn 1.2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.login-box h2{text-align:center;color:#fff;margin-bottom:25px;font-size:30px;letter-spacing:1px}
+.input-box{position:relative;margin-bottom:25px}
+.input-box input{width:100%;padding:12px 15px;border:none;outline:none;border-radius:8px;font-size:16px;color:#fff;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);transition:0.3s}
+.input-box input:focus{background:rgba(255,255,255,0.25)}
+.input-box input::placeholder{color:#ddd}
+.btn{width:100%;padding:12px;border:none;border-radius:8px;font-size:17px;margin-top:5px;cursor:pointer;background:linear-gradient(90deg,#6a11cb,#2575fc);color:#fff;font-weight:600;transition:0.3s}
+.btn:hover{transform:scale(1.03);box-shadow:0 0 15px rgba(109,65,207,0.5)}
+.extra-msg{margin-top:10px;text-align:center;font-size:13px;color:#ff4d4d;font-weight:600}
+.extra-links{text-align:center;margin-top:15px}
+.extra-links a{color:#fff;font-size:14px;text-decoration:none;opacity:0.8}
+.extra-links a:hover{opacity:1;text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div class="circle"></div><div class="circle"></div><div class="circle"></div>
+
+<div class="login-box">
+  <h2>Welcome</h2>
+  <div style="color: orange; font-weight: 700; font-style: italic; font-size: 20px; margin-bottom: 10px; text-align: left;">
+    User Login
+  </div>
+
+  <form onsubmit="return loginCheck(event)">
+    <div class="input-box">
+      <input id="user" type="text" placeholder="Username" required />
+    </div>
+    <div class="input-box">
+      <input id="pass" type="password" placeholder="Password" required />
+    </div>
+
+    <button class="btn" type="submit">Login</button>
+
+    <div class="extra-msg">
+      * Username & Password are case-sensitive (A–Z and a–z are different)
+    </div>
+
+    <div class="extra-links">
+      <a href="#" onclick="forgotMessage()">Forgot Password?</a>
+    </div>
+  </form>
+</div>
+
+<script>
+/* -------------------------
+   ANTI-INSPECT PROTECTIONS
+   ------------------------- */
+// disable right-click
+document.addEventListener('contextmenu', e => e.preventDefault());
+// block keys: F12, Ctrl+Shift+I/C/J, Ctrl+U
+document.addEventListener('keydown', function(e){
+  if(e.keyCode===123) e.preventDefault(); // F12
+  if(e.ctrlKey && e.shiftKey && (e.keyCode===73 || e.keyCode===74 || e.keyCode===67)) e.preventDefault(); // Ctrl+Shift+I/J/C
+  if(e.ctrlKey && e.keyCode===85) e.preventDefault(); // Ctrl+U
+});
+
+// devtools detector -> checks large size diff
+(function(){ let opened=false; setInterval(function(){
+    try{
+      if(window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160){
+        if(!opened){
+          opened=true;
+          Swal.fire({
+            title:'Security Notice',
+            text:'Developer tools detected. For security, this page will redirect.',
+            icon:'warning',
+            width:320,
+            padding:'10px',
+            confirmButtonText:'OK'
+          }).then(()=>{ setTimeout(()=>{ location.href='about:blank'; },200); });
+        }
+      }
+    }catch(e){}
+},800); })();
+
+/* --------------------------------------------------------
+   OBFUSCATED-STYLE CREDENTIAL STORAGE (XOR + CharCodes)
+   --------------------------------------------------------
+   - credentials are stored as numeric arrays XORed with a key (5)
+   - decoding is done at runtime; no plain text in source
+   -------------------------------------------------------- */
+
+function loginCheck(e){
+  e.preventDefault();
+  var u=document.getElementById('user').value.trim();
+  var p=document.getElementById('pass').value.trim();
+
+  (function(){
+    var k=5;
+    var u_enc=[78,109,106,119,100,107,97,108,64,104,108,113,119,100]; // encoded KhorandiEmitra (each char ^5)
+    var p_enc=[69,72,124,117,106,119,113,100,105]; // encoded @Myportal
+
+    function d(a){ for(var s='',i=0;i<a.length;i++){ s+=String.fromCharCode(a[i]^k);} return s; }
+
+    var realU=d(u_enc);
+    var realP=d(p_enc);
+
+    // wrong username
+    if(u!==realU){
+      Swal.fire({title:'Invalid Username!',text:'Please enter a correct username.',icon:'error',width:330,padding:'12px',confirmButtonText:'OK'}).then(function(){
+        document.getElementById('user').value=''; document.getElementById('pass').value='';
+      });
+      return false;
+    }
+
+    // wrong password
+    if(p!==realP){
+      Swal.fire({title:'Invalid Password!',text:'Please enter the correct password.',icon:'error',width:330,padding:'12px',confirmButtonText:'OK'}).then(function(){
+        document.getElementById('pass').value='';
+      });
+      return false;
+    }
+
+    // success
+    Swal.fire({title:'Login Successful!',icon:'success',width:330,padding:'12px',timer:1400,showConfirmButton:false}).then(function(){
+      document.getElementById('user').value=''; document.getElementById('pass').value='';
+      window.location.href='home.html';
+    });
+
+  })();
+  return true;
+}
+
+/* -------------------------
+   FORGOT PASSWORD (SMALL)
+---------------------------*/
+function forgotMessage(){
+  Swal.fire({
+    title:'Feature Not Available',
+    html:`<span style="background: yellow; color: black; padding: 3px 6px; border-radius: 4px; font-weight: 700;">
+           This feature is not provided by <b>Khorandi E-Mitra Portal</b>.
+           </span>`,
+    icon:'info',
+    width:320,
+    padding:'10px',
+    confirmButtonText:'OK'
+  });
+}
+
+/* clear inputs on load (extra) */
+window.addEventListener('load', function(){ try{document.getElementById('user').value=''; document.getElementById('pass').value='';}catch(e){} });
+</script>
+
+</body>
+</html>
