@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Login Page</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+body{
+  min-height:120vh;
+  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  display:flex;
+  flex-direction:column;
+  overflow-x:hidden;
+}
+.header{
+  width:100%;
+  height:75px;
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(10px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 10px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:2px solid rgba(255,255,255,0.2);
+}
+.header img{width:50px;height:50px;border-radius:50%}
+.header-title{color:white;font-size:20px;font-weight:700}
+.visit-btn{
+  background:#ffa500d6;padding:6px 12px;margin-right:5px; border-radius:6px;color:black;font-weight:600;
+  text-decoration:none;transition:0.3s;
+}
+.visit-btn:hover{background:#5fa8ff;color:white}
+.circle{position:absolute;border-radius:50%;background:rgba(255,255,255,0.06);
+animation:float 6s infinite ease-in-out;z-index:-1}
+.circle:nth-child(1){width:140px;height:140px;top:10%;left:10%}
+.circle:nth-child(2){width:110px;height:110px;bottom:18%;right:12%;animation-delay:1s}
+.circle:nth-child(3){width:170px;height:170px;top:45%;right:8%;animation-delay:2s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+.main-wrapper{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:50px 10px;
+}
+.login-box{
+  width:360px;padding:35px;background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(15px);border-radius:18px;
+  border:1px solid rgba(255,255,255,0.18);
+  box-shadow:0 0 25px rgba(255,255,255,0.15);
+  text-align:center;
+}
+.login-box h2{color:white;font-size:28px;margin-bottom:18px;font-weight:700}
+.input-box{margin-bottom:18px;text-align:left}
+.input-box input{
+  width:100%;padding:12px;border:none;border-radius:8px;background:rgba(255,255,255,0.18);
+  color:white;font-size:16px;outline:none;border:1px solid rgba(255,255,255,0.25);
+}
+.input-box input::placeholder{color:#ddd}
+.btn{
+  width:100%;padding:12px;border:none;border-radius:8px;font-size:18px;
+  background:linear-gradient(90deg,#6a11cb,#2575fc);color:white;font-weight:700;cursor:pointer;
+  transition:0.3s;margin-top:5px;
+}
+.btn:hover{transform:scale(1.03)}
+.extra-msg{font-size:12px;color:#ff5050;margin-top:10px}
+.extra-links a{font-size:14px;color:#fff;text-decoration:none;margin-top:12px;display:inline-block}
+.extra-links a:hover{text-decoration:underline}
+.footer{
+  width:100%;background:#263238e6;
+  backdrop-filter:blur(10px);color:white;text-align:center;
+  padding:18px 0;border-top:2px solid rgba(255,255,255,0.25);
+  margin-top:auto;
+  font-size:14px;
+}
+.footer-flex{
+  width:95%;                    
+  margin:0 auto 10px auto;      
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  padding:0 0;
+  text-align:left;             
+}
+.footer-title{
+  font-weight:700;
+  font-size:14px;
+  text-decoration:underline;
+  margin-bottom:10px;           
+}
+.footer-links{
+  margin:0;
+  padding:0;
+}
+.footer-links li{
+  cursor:pointer;
+  font-size:14px;
+  font-weight:700;
+  color:yellow;
+  list-style:none;
+  display:flex;
+  align-items:center;
+  margin:6px 0;
+  transition:0.25s;
+}
+.footer-links li::before{
+  content:"➤";
+  font-size:16px;
+  font-weight:900;
+  color:#0ee8d4;
+  margin-right:8px;
+  transition:0.25s;
+}
+.footer-links li:hover{
+  transform:translateX(1px);
+  color:red;
+}
+.footer-links li:hover::before{
+  transform:translateX(1px);
+  color:white;
+}
+.email{color:#81ea08;font-weight:700}
+.footer-line{
+  width:95%;
+  height:2px;
+  background:#8D6E63;
+  margin:0 auto 13px auto;
+}
+@media(max-width:600px){
+  .login-box{width:95%}
+  .header-title{font-size:16px}
+  .footer-flex{flex-direction:column;text-align:left;gap:12px}
+}
+@media(min-width:768px){
+  .login-box{
+    width:500px;
+    max-width:500px;
+    padding:45px;
+  }
+  .login-box h2{font-size:32px}
+  .input-box input{font-size:20px;padding:15px}
+  .btn{font-size:22px;padding:15px}
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div style="display:flex;align-items:center;gap:15px">
+    <img src="logo2.jpg" alt="Logo">
+    <div class="header-title">Khorandi E-Mitra Portal</div>
+  </div>
+  <a href="#" class="visit-btn">Visit Website</a>
+</div>
+<div class="circle"></div><div class="circle"></div><div class="circle"></div>
+<div class="main-wrapper">
+  <div class="login-box">
+    <h2>Welcome</h2>
+    <div style="color: orange; font-weight: 700; font-style: italic; font-size: 20px; margin-bottom: 10px; text-align: left;">
+    User Login
+  </div>
+     <form onsubmit="return loginCheck(event)">
+    <div class="input-box">
+      <input id="user" type="text" placeholder="Username" required />
+    </div>
+    <div class="input-box">
+      <input id="pass" type="password" placeholder="Password" required />
+    </div>
+    <button class="btn" type="submit">Login</button>
+    <div class="extra-msg">
+      ** Username & Password are case-sensitive (A–Z and a–z are different)
+    </div>
+    <div class="extra-links">
+      <a href="#" onclick="forgotMessage()">Forgot Password?</a>
+    </div>
+  </form>
+     </div>
+</div>
+  <div class="footer">
+  <div class="footer-flex">
+    <div>
+      <div class="footer-title">Useful Links / Tools</div>
+      <ul class="footer-links">
+        <li onclick="location.href='Age_Cal.html'">Age Calculator</li>
+        <li onclick="location.href='Basic_Cal.html'">Basic Calculator</li>
+        <li onclick="location.href='help.html'">Help & Support</li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-title">☎ Contact Us</div>
+      <div class="email">support@khorandiportal.in</div>
+    </div>
+  </div>
+  <div class="footer-line"></div>
+  © 2025 Khorandi E-Mitra Portal — All Rights Reserved | Design by <b>R. Kumar</b>
+</div>
+<script>
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', function(e){
+  if(e.keyCode===123) e.preventDefault();
+  if(e.ctrlKey && e.shiftKey && (e.keyCode===73 || e.keyCode===74 || e.keyCode===67)) e.preventDefault();
+  if(e.ctrlKey && e.keyCode===85) e.preventDefault();
+});
+(function(){ let opened=false; setInterval(function(){
+    if(window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160){
+      if(!opened){
+        opened=true;
+        Swal.fire({
+          title:'Security Notice',
+          text:'Developer tools detected. For security, this page will redirect.',
+          icon:'warning',
+          width:320,padding:'10px'
+        }).then(()=>{ location.href='about:blank'; });
+      }
+    }
+},800); })();
+function loginCheck(e){
+  e.preventDefault();
+  var u=document.getElementById('user').value.trim();
+  var p=document.getElementById('pass').value.trim();
+  (function(){
+    var k=5;
+    var u_enc=[78,109,106,119,100,107,97,108,64,104,108,113,119,100];
+    var p_enc=[69,72,124,117,106,119,113,100,105];
+    function d(a){ let s=''; for(let i=0;i<a.length;i++){ s+=String.fromCharCode(a[i]^k);} return s; }
+    var realU=d(u_enc);
+    var realP=d(p_enc);
+    if(u!==realU){
+      Swal.fire({title:'Invalid Username!',text:'Please enter a correct username.',icon:'error',width:330,padding:'12px'})
+      .then(()=>{ document.getElementById('user').value=''; document.getElementById('pass').value=''; });
+      return false;
+    }
+    if(p!==realP){
+      Swal.fire({title:'Invalid Password!',text:'Please enter the correct password.',icon:'error',width:330,padding:'12px'})
+      .then(()=>{ document.getElementById('pass').value=''; });
+      return false;
+    }
+    Swal.fire({title:'Login Successful!',icon:'success',width:330,padding:'12px',timer:1400,showConfirmButton:false})
+    .then(()=>{
+      document.getElementById('user').value='';
+      document.getElementById('pass').value='';
+      location.href='home.html';
+    });
+  })();
+}
+function forgotMessage(){
+  Swal.fire({
+    title:'Feature Not Available',
+    html:`<span style="background: yellow; color: black; padding: 3px 6px; border-radius: 4px; font-weight: 700;">
+           This feature is not provided by <b>Khorandi E-Mitra Portal</b>.
+         </span>`,
+    icon:'info',
+    width:320,
+    padding:'10px'
+  });
+}
+window.addEventListener('load', function(){
+  document.getElementById('user').value='';
+  document.getElementById('pass').value='';
+});
+</script>
+
+</body>
+</html>

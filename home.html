@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Khorandi E-Mitra Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --page-bg:#f3f6f9;
+      --panel-bg:#ffffff;
+      --accent:#0ea5a4;
+      --accent-dark:#0b6b6a;
+      --blue:#2b9cff;
+      --muted:#6b7280;
+      --card-shadow: 0 8px 30px rgba(13,30,44,0.08);
+      --radius:10px;
+      --sarkari-blue:#12b88654;
+      --header-green: #12b886;
+      --print-border-color: #000;
+      --link-remark-pink: #ff4fa3;
+      --links-bg-mauve: #f3eaf7;
+      --burgundy: #800020;
+      --purple: #800080;
+      --org-green: #008000;
+      --tag-indigo: #4B0082;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:Inter,system-ui,Arial; background:var(--page-bg); color:#0b1220;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      padding:18px;
+    }
+
+    .layout{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 480px;gap:18px}
+    @media(max-width:980px){ .layout{grid-template-columns:1fr} }
+
+    .card{background:var(--panel-bg);border-radius:var(--radius);padding:12px;box-shadow:var(--card-shadow);border:2px solid #607d8b}
+    .title{display:flex;gap:12px;align-items:center}
+    .brand{width:90px;height:80px;border-radius:8px;background:linear-gradient(135deg,var(--header-green),#06b6d4);display:flex;align-items:center;justify-content:center;padding-left:6px;color:white;font-weight:700}
+    h1{margin:0;font-size:25px}
+    p.lead{margin:6px 0 14px;color:#e11d1db8;font-size:14px}
+
+    form .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:720px){ form .grid{grid-template-columns:1fr} }
+
+    .field{position:relative;margin-bottom:8px}
+    .field input[type=text], .field input[type=url], .field input[type=date], .field input[type=number], .field select, .field textarea{
+      width:100%; padding:10px 12px;border-radius:6px;border:1px solid #607d8b75;background:#9e9e9e1f;font-size:14px;color:#0b1220;
+    }
+    .field textarea{min-height:110px;resize:vertical}
+    .label{font-size:13px;color:#0f1724;font-weight:600;margin-bottom:6px;display:block}
+    .helper{font-size:13px;color:var(--muted);margin-top:6px}
+
+    .btn{padding:10px 14px;border-radius:6px;border:0;font-weight:700;cursor:pointer}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),#06b6d4);color:white}
+    .btn-ghost{background:#ffee58a8;border:2px solid rgba(96 125 139 / 69%);color:#3E2723;}
+    .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:10px}
+
+    .preview-wrap{position:sticky;top:18px}
+    .post-output{background:white;border-radius:6px;border:2px solid #303f9fd4;overflow:hidden}
+    .post-header{padding:14px;border-bottom:3px solid #ff4fa369;background:linear-gradient(90deg, rgba(17,24,39,0.02), rgba(17,24,39,0.00));}
+    .post-title{font-size:18px;margin:0; color:#083041; font-weight:700}
+    .post-sub{font-size:13px;color:#0b9b8f;margin-top:6px}
+    .section{padding:14px;border-bottom:1px dashed rgba(11,17,32,0.04)}
+    .section .heading{background:var(--sarkari-blue);padding:8px 10px;border-radius:4px;color:#033a64;font-weight:700;margin-bottom:3px}
+    .bullets{padding-left:20px;margin:6px 0;color:#111827}
+    .bullets li{margin:6px 0}
+    table{width:100%;border-collapse:collapse;margin-top:8px}
+    table th, table td{padding:8px;border:1px solid rgb(11 17 32 / 21%);text-align:left;font-size:16px;vertical-align:top}
+    table th{background:linear-gradient(180deg, rgba(235,247,255,0.9), rgba(220,240,255,0.9));color:#033a64;font-weight:700}
+    .links-box{background:var(--links-bg-mauve);padding:6px;border-radius:2px;border:0px solid rgba(0,0,0,0.03)}
+    .links-table { width:100%; border-collapse:collapse; margin-top:6px; background:var(--links-bg-mauve); }
+    .links-table td { padding:10px 8px; border:1px solid rgba(11, 17, 32, 0.05);; vertical-align:middle; background:var(--links-bg-mauve); }
+    .links-table .label-td { width:45%; font-weight:700; color:#0b1220; text-align:left; }
+    .links-table .right-td { width:55%; text-align:right;font-weight: bold; }
+    .links-remark { color:var(--link-remark-pink); font-weight:600; font-style:italic; display:block; margin-top:4px; text-align:right; }
+
+    .small{font-size:13px;color:var(--muted)}
+    .vacancy-section { margin-top:10px; padding-top:8px; border-top:1px dashed rgba(11,17,32,0.04) }
+    .post-block {
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      background: #f9fcff;
+    }
+    .input {
+      width:100%;
+      padding:6px;
+      border:1px solid #ccc;
+      border-radius:6px;
+    }
+    .btn-small {
+      background: #2b9cff;
+      padding: 6px 10px;
+      border-radius:6px;
+      font-weight:700;
+      color:white;
+      cursor:pointer;
+      border:0;
+    }
+    .btn-danger { background:#e63946; color:white; border:0; padding:6px 10px; border-radius:6px; cursor:pointer }
+    .preview-card { position: sticky; top: 10px; }
+    .table-title {
+      width:100%;
+      padding:8px 10px;
+      border-radius:6px;
+      border:1px solid #d1d5db;
+      margin-bottom:8px;
+      font-weight:600;
+    }
+    .table-wrapper { margin-top:12px; }
+    .table-title-row { margin-top:8px; font-size:14px; color:#0b1220; font-weight:700; }
+
+    .total-banner {
+      text-align:center;
+      color:#e11d48;
+      font-weight:800;
+      margin:8px 0;
+      font-size:16px;
+    }
+       @media print {
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      .no-print { display:none !important; }
+    }
+
+    .preview-red { color: #e11d48; font-weight:600; }
+    .preview-black { color: #0b1220; font-weight:600; }
+    .header-meta { text-align:center; margin-top:8px; }
+    .header-meta .org { display:block; color:var(--org-green); font-weight:700;font-size:20px; text-decoration:underline; }
+    .header-meta .shortInfo { display:block; color:#d32f2f; font-weight:700;font-size:18px; text-decoration:underline; margin-top:6px; }
+    .header-meta .tag { display:block; color:var(--tag-indigo); font-weight:700; text-decoration:underline; margin-top:6px; text-align:right; }
+    .print-wrapper { box-sizing:border-box; width:100%; }
+      @media(max-width:720px){
+      .links-table .label-td, .links-table .right-td { display:block; width:100%; text-align:left; }
+      .links-table .right-td { margin-top:2px; text-align:left; }
+      .header-meta .tag { text-align:right; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <div class="card">
+      <div class="title">
+        <div class="brand">KE Portal</div>
+        <div>
+          <h1>Khorandi E-mitra Portal</h1>
+          <p class="lead"><b>** Form bharein aur Preview par click karein. Ye frontend-only prototype hai. Print/Save PDF se aap PDF Your Device par Save kar sakte hai.</b></p>
+        </div>
+      </div>
+
+      <form id="adminForm" onsubmit="return false;">
+        <div class="grid" style="margin-top:12px">
+
+          <div class="field">
+            <label class="label">Organization / Short Title</label>
+            <input id="org" type="text" placeholder="eg. Staff Selection Commission (SSC)">
+          </div>
+
+          <div class="field">
+            <label class="label">Notification Year / Tag</label>
+            <input id="tag" type="text" placeholder="eg. Recruitment 2025">
+          </div>
+
+          <div class="field">
+            <label class="label">Short Information (one line)</label>
+            <input id="shortInfo" type="text" placeholder="Short one-line summary">
+          </div>
+
+          <div class="field">
+            <label class="label">Total Posts (optional)</label>
+            <input id="totalPosts" type="number" min="0" placeholder="eg. 7556">
+          </div>
+
+          <div class="field">
+            <label class="label">Notification Date</label>
+            <input id="notifDate" type="date">
+          </div>
+
+          <div class="field">
+            <label class="label">Last Date to Apply</label>
+            <input id="lastDate" type="date">
+          </div>
+
+          <div class="field full" style="grid-column:1/-1">
+            <label class="label">Important Dates (each line = one bullet)</label>
+            <textarea id="impDates" placeholder="eg. Application Start Date : 22 September 2025
+Fee Payment Last Date : 22 October 2025"></textarea>
+          </div>
+
+          <div class="field full" style="grid-column:1/-1">
+            <label class="label">Application Fee (each line = one bullet)</label>
+            <textarea id="appFee" placeholder="eg. General, EWS, OBC : Rs. 100/-"></textarea>
+          </div>
+
+          <div class="field full" style="grid-column:1/-1">
+            <label class="label">Age Limit & Notes (each line = one bullet)</label>
+            <textarea id="ageLimit" placeholder="eg. Minimum Age : 18 Years
+Maximum Age : 25 Years"></textarea>
+          </div>
+            <div class="field full vacancy-section" style="grid-column:1/-1">
+            <h3 style="margin:0 0 8px 0">Vacancy Details</h3>
+            <div id="postContainer"></div>
+
+            <div style="margin-top:10px; display:flex; gap:8px; align-items:center;">
+              <button id="addPost" type="button" class="btn btn-primary">+ Add Post</button>
+              <button id="addTable" type="button" class="btn btn-primary" style="background:#0b6b6a">+ Add Table</button>
+            </div>
+
+            <div style="text-align:right; margin-top:12px;">
+              <button id="printBtn" type="button" class="btn btn-ghost no-print" style="background:#9FA8DA;color:indigo;">Print / Save PDF</button>
+            </div>
+          </div>
+          <div class="field full" style="grid-column:1/-1">
+            <label class="label">Educational Qualification (use paragraphs / bullets)</label>
+            <textarea id="education" placeholder="Describe educational requirements..."></textarea>
+          </div>
+
+          <div class="field full" style="grid-column:1/-1">
+            <label class="label">Physical Measurement / PET (optional)</label>
+            <textarea id="physical" placeholder="eg. Height: Male 170 cm, Female 155 cm ..."></textarea>
+          </div>
+
+          <div class="field full" style="grid-column:1/-1">
+            <label class="label">How to Apply (each line = bullet)</label>
+            <textarea id="howToApply" placeholder="eg. Candidates can apply online through official website..."></textarea>
+          </div>
+
+          <div class="field full" style="grid-column:1/-1">
+            <label class="label">Mode of Selection (each line = bullet)</label>
+            <textarea id="modeSelect" placeholder="eg. CBT Exam
+PET & PST
+Document Verification"></textarea>
+          </div>
+
+          <div class="field full" style="grid-column:1/-1">
+            <label class="label">Important Links (one per line: Label | URL | Remark)</label>
+            <textarea id="importantLinks" placeholder="eg. Apply Online | https://apply.example.com | Link Active Soon"></textarea>
+            <div class="helper">Use pipe (|) to separate Label, URL and optional Remark.</div>
+          </div>
+        </div>
+
+        <div class="actions no-print">
+          <button id="previewBtn" class="btn btn-ghost" type="button">Preview</button>
+          <button id="saveLocal" class="btn btn-ghost" type="button">Save Locally</button>
+          <button id="resetBtn" class="btn btn-ghost" type="button">Reset</button>
+        </div>
+      </form>
+    </div>
+        <div class="preview-wrap">
+      <div class="post-output card">
+        <div class="post-header">
+          <div class="post-title" style="font-size:25px;font-weight:900">Khorandi E-mitra Portal</div>
+          <div id="header-meta" class="header-meta" aria-hidden="false">
+          </div>
+
+          <div id="out-tag" class="post-sub" style="margin-top:8px; display:none">Tag / Notification Year • Total Posts: <span id="out-total">-</span></div>
+        </div>
+
+        <div id="out-body">
+          <div class="section" id="sec-dates">
+            <div class="heading">Important Dates</div>
+            <ul id="out-dates" class="bullets"></ul>
+          </div>
+
+          <div class="section" id="sec-fee">
+            <div class="heading">Application Fee</div>
+            <ul id="out-fee" class="bullets"></ul>
+          </div>
+
+          <div class="section" id="sec-age">
+            <div class="heading">Age Limit</div>
+            <ul id="out-age" class="bullets"></ul>
+          </div>
+            <div class="section" id="sec-vacancy">
+            <div class="heading">Vacancy Details</div>
+            <div id="outVacancy"></div>
+          </div>
+          <div class="section" id="sec-edu">
+            <div class="heading">Educational Qualification</div>
+            <div id="out-edu" style="color:#0b1220"></div>
+          </div>
+          <div class="section" id="sec-phys">
+            <div class="heading">Physical Measurement / PET</div>
+            <div id="out-phys" style="color:#0b1220"></div>
+          </div>
+
+          <div class="section" id="sec-apply">
+            <div class="heading">How to Apply</div>
+            <ul id="out-how" class="bullets"></ul>
+          </div>
+
+          <div class="section" id="sec-mode">
+            <div class="heading">Mode of Selection</div>
+            <ul id="out-mode" class="bullets"></ul>
+          </div>
+
+          <div class="section" id="sec-links">
+            <div class="heading">Important Links</div>
+            <div class="links-box" id="out-links"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function $(s){ return document.querySelector(s) }
+    function $all(s){ return Array.from(document.querySelectorAll(s)) }
+    const previewBtn = $('#previewBtn'), resetBtn = $('#resetBtn'), saveLocal = $('#saveLocal');
+    const org = $('#org'), tag = $('#tag'), shortInfo = $('#shortInfo'), totalPosts = $('#totalPosts');
+    const impDates = $('#impDates'), appFee = $('#appFee'), ageLimit = $('#ageLimit');
+    const education = $('#education'), physical = $('#physical'), howToApply = $('#howToApply'), modeSelect = $('#modeSelect'), importantLinks = $('#importantLinks');
+    const outTotal = $('#out-total');
+    const outDates = $('#out-dates'), outFee = $('#out-fee'), outAge = $('#out-age');
+    const outEdu = $('#out-edu'), outPhys = $('#out-phys'), outHow = $('#out-how'), outMode = $('#out-mode'), outLinks = $('#out-links');
+
+    function lines(text){ return (text||'').split('\n').map(l=>l.trim()).filter(l=>l.length); }
+    function fmtDate(val){
+      if(!val) return '';
+      try {
+        const dt = new Date(val);
+        return dt.toLocaleDateString('en-IN', { day:'2-digit', month:'long', year:'numeric' });
+      } catch(e){ return val; }
+    }
+    function updateHeaderMeta(){
+      const headerMeta = document.getElementById('header-meta');
+      headerMeta.innerHTML = '';
+      const orgVal = org.value.trim();
+      const tagVal = tag.value.trim();
+      const shortVal = (shortInfo && shortInfo.value) ? shortInfo.value.trim() : '';
+
+      if(orgVal){
+        const s = document.createElement('span'); s.className='org'; s.textContent = orgVal;
+        headerMeta.appendChild(s);
+      }
+      if(shortVal){
+        const s2 = document.createElement('span'); s2.className='shortInfo'; s2.textContent = shortVal;
+        headerMeta.appendChild(s2);
+      }
+      if(tagVal){
+        const s3 = document.createElement('span'); s3.className='tag'; s3.textContent = tagVal;
+        headerMeta.appendChild(s3);
+      }
+    }
+    function toUnorderedList(text) {
+      const linesArr = (text||'').split('\n').map(l=>l.trim()).filter(l=>l);
+      if (linesArr.length === 0) return '-';
+      if (linesArr.length === 1) {
+        if (["AND", "OR", "&"].includes(linesArr[0].toUpperCase())) {
+          return `<div style="text-align:center; color:blue; font-weight:bold; font-style:italic;">${escapeHtml(linesArr[0])}</div>`;
+        }
+        return escapeHtml(linesArr[0]);
+      }
+      let html = '';
+      let ulOpen = false;
+      linesArr.forEach(line => {
+        if (["AND", "OR", "&"].includes(line.toUpperCase())) {
+          if (ulOpen) { html += '</ul>'; ulOpen = false; }
+          html += `<div style="text-align:center; color:blue; font-weight:bold; font-style:italic;">${escapeHtml(line)}</div>`;
+        } else {
+          if (!ulOpen) { html += '<ul>'; ulOpen = true; }
+          html += `<li>${escapeHtml(line)}</li>`;
+        }
+      });
+      if (ulOpen) html += '</ul>';
+      return html;
+    }
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); });
+    }
+    const postContainer = document.getElementById('postContainer');
+    const addPostBtn = document.getElementById('addPost');
+    const addTableBtn = document.getElementById('addTable');
+    let postCount = 0;
+    function createPostBlock() {
+      postCount++;
+      const postBlock = document.createElement('div');
+      postBlock.className = 'post-block';
+      postBlock.dataset.postId = postCount;
+      postBlock.innerHTML = `
+        <label><b>Post Name:</b></label>
+        <input class="input postName" placeholder="e.g. BSF, CISF">
+        <button class="btn-danger removePost no-print" style="float:right;">Remove Post</button>
+        <table>
+          <thead>
+            <tr class="colHeader">
+              <th>No. of Posts</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody class="catBody">
+            <tr>
+              <td><textarea class="input catCount" placeholder="Enter details here"></textarea></td>
+              <td><button class="btn-danger removeCat no-print">Remove</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:8px;">
+          <button class="btn-small addCat no-print" type="button">+ Add No. of Posts</button>
+          <button class="btn-small no-print" style="background:#8e44ad;" type="button" onclick="addColumn(this)">+ Add Column</button>
+          <button class="btn-small no-print" style="background:#f39c12;" type="button" onclick="renameColumn(this)">✎ Rename Column</button>
+        </div>
+      `;
+      postBlock.querySelector('.removePost').onclick = () => postBlock.remove();
+      postBlock.querySelector('.addCat').onclick = () => addCategory(postBlock);
+      postBlock.querySelectorAll('.removeCat').forEach(btn => { btn.onclick = e => e.target.closest('tr').remove(); });
+      return postBlock;
+    }
+    addPostBtn.onclick = () => {
+      const pb = createPostBlock();
+      postContainer.appendChild(pb);
+    };
+    addTableBtn.onclick = () => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'table-wrapper';
+      wrapper.style.marginTop = '12px';
+      const title = document.createElement('input');
+      title.type = 'text';
+      title.className = 'table-title';
+      title.placeholder = 'Enter Table Title (e.g. Qualification Details)';
+      const table = document.createElement('table');
+      table.innerHTML = `
+        <thead>
+          <tr class="colHeader">
+            <th>No. of Posts</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody class="catBody">
+          <tr>
+            <td><textarea class="input" placeholder="Enter details here"></textarea></td>
+            <td><button class="btn-danger removeCat no-print">Remove</button></td>
+          </tr>
+        </tbody>
+      `;
+      const controls = document.createElement('div');
+      controls.style.marginTop = '8px';
+      controls.innerHTML = `
+        <button class="btn-small no-print addRow" type="button">+ Add Row</button>
+        <button class="btn-small no-print addCol" type="button" style="background:#8e44ad;">+ Add Column</button>
+        <button class="btn-small no-print renameCol" type="button" style="background:#f39c12;">✎ Rename Column</button>
+        <button class="btn-danger no-print removeTable" type="button" style="margin-left:8px;">Remove Table</button>
+      `;
+      wrapper.appendChild(title);
+      wrapper.appendChild(table);
+      wrapper.appendChild(controls);
+      postContainer.appendChild(wrapper);
+        wrapper.querySelectorAll('.removeCat').forEach(btn => {
+        btn.onclick = e => e.target.closest('tr').remove();
+      });
+      wrapper.querySelector('.addRow').onclick = () => {
+        const tbody = wrapper.querySelector('tbody.catBody');
+        const ths = Array.from(wrapper.querySelectorAll('.colHeader th'));
+        const tr = document.createElement('tr');
+        let tdHTML = '';
+        ths.forEach((th, i) => {
+          if (i < ths.length - 1) {
+            tdHTML += `<td><textarea class="input" placeholder="${th.textContent}"></textarea></td>`;
+          } else {
+            tdHTML += `<td><button class="btn-danger removeCat no-print">Remove</button></td>`;
+          }
+        });
+        tr.innerHTML = tdHTML;
+        tbody.appendChild(tr);
+        tr.querySelector('.removeCat').onclick = e => e.target.closest('tr').remove();
+      };
+      wrapper.querySelector('.addCol').onclick = () => {
+        const colName = prompt("Enter new column name (e.g. Qualification, Pay Scale):");
+        if (!colName) return;
+        const headerRow = wrapper.querySelector('.colHeader');
+        const rows = wrapper.querySelectorAll('tbody tr');
+
+        const th = document.createElement('th');
+        th.textContent = colName;
+        headerRow.insertBefore(th, headerRow.lastElementChild);
+
+        rows.forEach(row => {
+          const td = document.createElement('td');
+          td.innerHTML = `<textarea class="input" placeholder="${colName}"></textarea>`;
+          row.insertBefore(td, row.lastElementChild);
+        });
+      };
+        wrapper.querySelector('.renameCol').onclick = () => {
+        const ths = wrapper.querySelectorAll('.colHeader th');
+        const colNames = Array.from(ths).map(th => th.textContent).filter(c => c !== 'Action');
+        const colToRename = prompt(`Which column do you want to rename?\n${colNames.join(', ')}`);
+        if (!colToRename) return;
+        const th = Array.from(ths).find(t => t.textContent === colToRename);
+        if (!th) return alert("Column not found!");
+        const newName = prompt("Enter new column name:", colToRename);
+        if (!newName) return;
+        th.textContent = newName;
+        const index = Array.from(ths).indexOf(th);
+        wrapper.querySelectorAll('tbody tr').forEach(row => {
+          const input = row.children[index]?.querySelector('textarea');
+          if (input) input.placeholder = newName;
+        });
+      };
+       wrapper.querySelector('.removeTable').onclick = () => wrapper.remove();
+    };
+    function addCategory(postBlock) {
+      const catBody = postBlock.querySelector('.catBody');
+      const tr = document.createElement('tr');
+      let tdHTML = '';
+      const ths = postBlock.querySelectorAll('.colHeader th');
+      ths.forEach((th, i) => {
+        if (i < ths.length - 1) {
+          tdHTML += `<td><textarea class="input" placeholder="${th.textContent}"></textarea></td>`;
+        } else {
+          tdHTML += `<td><button class="btn-danger removeCat no-print">Remove</button></td>`;
+        }
+      });
+      tr.innerHTML = tdHTML;
+      catBody.appendChild(tr);
+      tr.querySelector('.removeCat').onclick = e => e.target.closest('tr').remove();
+    }
+      function addColumn(btn) {
+      const postBlock = btn.closest('.post-block');
+      if(!postBlock) return;
+      const table = postBlock.querySelector('table');
+      const headerRow = table.querySelector('.colHeader');
+      const rows =table.querySelectorAll('tbody tr');
+
+      const colName = prompt("Enter new column name (e.g. Qualification, Pay Scale):");
+      if (!colName) return;
+      const th = document.createElement('th');
+      th.textContent = colName;
+      headerRow.insertBefore(th, headerRow.lastElementChild);
+      rows.forEach(row => {
+        const td = document.createElement('td');
+        td.innerHTML = `<textarea class="input" placeholder="${colName}"></textarea>`;
+        row.insertBefore(td, row.lastElementChild);
+      });
+    }
+    function renameColumn(btn) {
+      const postBlock = btn.closest('.post-block');
+      const ths = postBlock.querySelectorAll('.colHeader th');
+      const colNames = Array.from(ths).map(th => th.textContent).filter(c => c !== 'Action');
+      const colToRename = prompt(`Which column do you want to rename?\n${colNames.join(', ')}`);
+      if (!colToRename) return;
+
+      const th = Array.from(ths).find(t => t.textContent === colToRename);
+      if (!th) return alert("Column not found!");
+      const newName = prompt("Enter new column name:", colToRename);
+      if (!newName) return;
+      th.textContent = newName;
+      const index = Array.from(ths).indexOf(th);
+      postBlock.querySelectorAll('tbody tr').forEach(row => {
+        const input = row.children[index]?.querySelector('textarea');
+        if (input) input.placeholder = newName;
+      });
+    }
+      function generateVacancyPreview(){
+      const outVacancy = document.getElementById('outVacancy');
+      const firstPost = document.querySelector('.post-block');
+      const firstTableWrapper = document.querySelector('.table-wrapper');
+
+      if (!firstPost && !firstTableWrapper) {
+        outVacancy.innerHTML = '<div class="small">No vacancy details added.</div>';
+        return;
+      }
+      let displayCols = [];
+      let firstCols = [];
+      if (firstPost) {
+        firstCols = Array.from(firstPost.querySelectorAll('.colHeader th')).map(th => th.textContent);
+      } else if (firstTableWrapper) {
+        const ths = firstTableWrapper.querySelectorAll('.colHeader th');
+        if (ths && ths.length) firstCols = Array.from(ths).map(th => th.textContent);
+      }
+      displayCols = firstCols.filter(c => c !== 'Action');
+      let html = '';
+        if (totalPosts && totalPosts.value) {
+        html += `<div class="total-banner">Total Posts: ${escapeHtml(totalPosts.value)}</div>`;
+      }
+      const children = Array.from(postContainer.children);
+      const postBlocks = [];
+      children.forEach(child => {
+        if (child.classList.contains('table-wrapper')) {
+          const titleInput = child.querySelector('.table-title');
+          const titleText = titleInput ? titleInput.value.trim() : '';
+          if (titleText) {
+            html += `<div style="background:#f1f9ff;padding:6px 8px;font-weight:800;margin-top:8px;border-radius:6px;">${escapeHtml(titleText)}</div>`;
+          }
+          const table = child.querySelector('table');
+          if (table) {
+          const ths = Array.from(table.querySelectorAll('.colHeader th')).map(th => th.textContent).filter(t => t !== 'Action');
+            html += `<table><thead><tr>`;
+            ths.forEach(c => html += `<th>${escapeHtml(c)}</th>`);
+            html += `</tr></thead><tbody>`;
+            const rows = child.querySelectorAll('tbody tr');
+            rows.forEach((row, rIdx) => {
+              const tds = Array.from(row.querySelectorAll('textarea, input'));
+              html += `<tr>`;
+                for (let i = 0; i < ths.length; i++) {
+                const ta = tds[i];
+                const val = ta ? toUnorderedList(ta.value.trim()) : '-';
+                html += `<td>${val}</td>`;
+              }
+              html += `</tr>`;
+            });
+            html += `</tbody></table>`;
+          }
+        } else if (child.classList.contains('post-block')) {
+          postBlocks.push(child);
+        }
+      });
+
+        if (postBlocks.length > 0) {
+        if (!displayCols || displayCols.length === 0) {
+          const cols = Array.from(postBlocks[0].querySelectorAll('.colHeader th')).map(th => th.textContent).filter(t => t !== 'Action');
+          displayCols = cols;
+        }
+        html += `<table><thead><tr><th>Post Name</th>`;
+        displayCols.forEach(c => html += `<th>${escapeHtml(c)}</th>`);
+        html += `</tr></thead><tbody>`;
+        postBlocks.forEach(pb => {
+          html += rowsFromPostBlock(pb, displayCols);
+        });
+        html += `</tbody></table>`;
+      }
+      outVacancy.innerHTML = html;
+    }
+     function rowsFromPostBlock(pb, displayCols) {
+      let rowsHtml = '';
+      const postName = pb.querySelector('.postName') ? pb.querySelector('.postName').value.trim() || '-' : '-';
+      const categories = pb.querySelectorAll('.catBody tr');
+      categories.forEach((row, idx) => {
+        const textareas = Array.from(row.querySelectorAll('textarea, input'));
+        const values = [];
+        for (let i = 0; i < displayCols.length; i++) {
+          const ta = textareas[i];
+          values.push(ta ? toUnorderedList(ta.value.trim()) : '-');
+        }
+        if (idx === 0) {
+          rowsHtml += `<tr><td rowspan="${categories.length}"><b>${escapeHtml(postName)}</b></td>`;
+          rowsHtml += values.map(v => `<td>${v}</td>`).join('') + `</tr>`;
+        } else {
+          rowsHtml += `<tr>` + values.map(v => `<td>${v}</td>`).join('') + `</tr>`;
+        }
+      });
+      return rowsHtml;
+    }
+      function generatePreview(){
+      document.querySelector('.post-title').textContent = 'Khorandi E-mitra Portal';
+      updateHeaderMeta();
+      outTotal.textContent = totalPosts && totalPosts.value ? totalPosts.value : '-';
+      outDates.innerHTML = '';
+      const notifVal = (document.getElementById('notifDate') && document.getElementById('notifDate').value) ? document.getElementById('notifDate').value : '';
+      const lastVal = (document.getElementById('lastDate') && document.getElementById('lastDate').value) ? document.getElementById('lastDate').value : '';
+
+      if(notifVal){
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="preview-black">Notification Date:</span> <span class="preview-black">${fmtDate(notifVal)}</span>`;
+        outDates.appendChild(li);
+      }
+      if(lastVal){
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="preview-red">Last Date to Apply:</span> <span class="preview-red">${fmtDate(lastVal)}</span>`;
+        outDates.appendChild(li);
+      }
+      lines(impDates.value).forEach(l=>{ const li=document.createElement('li'); li.textContent=l; outDates.appendChild(li); });
+      if(outDates.children.length===0) outDates.innerHTML = '<li class="small">Not available</li>';
+      outFee.innerHTML='';
+      lines(appFee.value).forEach(l=>{ const li=document.createElement('li'); li.textContent=l; outFee.appendChild(li) });
+      if(outFee.children.length===0) outFee.innerHTML='<li class="small">Not specified</li>';
+      outAge.innerHTML='';
+      lines(ageLimit.value).forEach(l=>{ const li=document.createElement('li'); li.textContent=l; outAge.appendChild(li) });
+      if(outAge.children.length===0) outAge.innerHTML='<li class="small">Not specified</li>';
+      outEdu.innerHTML = '';
+      const eduText = education.value.trim();
+      if(eduText){
+        const lns = lines(eduText);
+        if(lns.length===1) outEdu.innerHTML='<div>'+eduText.replace(/\n/g,'<br>')+'</div>';
+        else{
+          const ul=document.createElement('ul'); ul.className='bullets';
+          lns.forEach(l=>{ const li=document.createElement('li'); li.textContent=l; ul.appendChild(li) });
+          outEdu.appendChild(ul);
+        }
+      } else outEdu.innerHTML='<div class="small">Not specified</div>';
+         outPhys.innerHTML = physical.value.trim() ? physical.value.trim().replace(/\n/g,'<br>') : '<div class="small">Not specified</div>';
+      outHow.innerHTML='';
+      lines(howToApply.value).forEach(l=>{
+        const li=document.createElement('li');
+        if(/^\s*note\s*[:\-–—]/i.test(l) || /(^|\s)note\s*[:\-–—]/i.test(l)){
+          const span = document.createElement('span'); span.style.color='#e11d48'; span.style.fontWeight='800'; span.textContent=l;
+          li.appendChild(span);
+        } else li.textContent = l;
+        outHow.appendChild(li);
+      });
+      if(outHow.children.length===0) outHow.innerHTML='<li class="small">Instructions not provided</li>';
+      outMode.innerHTML='';
+      lines(modeSelect.value).forEach(l=>{ const li=document.createElement('li'); li.textContent=l; outMode.appendChild(li) });
+      if(outMode.children.length===0) outMode.innerHTML='<li class="small">Not specified</li>';
+      outLinks.innerHTML='';
+      const linkLines = lines(importantLinks.value);
+      if(linkLines.length===0){
+        outLinks.innerHTML='<div class="small">No links provided</div>';
+      } else {
+        const table = document.createElement('table');
+        table.className = 'links-table';
+        linkLines.forEach((ln, idx) => {
+          const parts = ln.split('|').map(s=>s.trim());
+          const label = parts[0] || 'Link';
+          const url = parts[1] || '#';
+          const remark = parts[2] || '';
+          const tr = document.createElement('tr');
+          const tdLeft = document.createElement('td'); tdLeft.className = 'label-td';
+          if(idx < 3) tdLeft.innerHTML = `<span style="color:var(--burgundy); font-weight:700;font-size:18px;">${escapeHtml(label)}</span>`;
+          else tdLeft.innerHTML = `<span style="color:#689f38; font-weight:700;font-size:17px;">${escapeHtml(label)}</span>`;          
+	const tdRight = document.createElement('td'); tdRight.className = 'right-td';
+          const a = document.createElement('a'); a.href = url; a.target = '_blank'; a.textContent = 'Click Here';
+          tdRight.appendChild(a);
+          if(remark){
+            const r = document.createElement('div'); r.className = 'links-remark'; r.textContent = remark;
+            tdRight.appendChild(r);
+          }
+          tr.appendChild(tdLeft); tr.appendChild(tdRight);
+          table.appendChild(tr);
+        });
+        outLinks.appendChild(table);
+      }
+       generateVacancyPreview();
+    }
+    
+    saveLocal.addEventListener('click', ()=>{
+      const obj={
+        org:org.value, tag:tag.value, shortInfo: shortInfo ? shortInfo.value : '',
+        totalPosts: totalPosts ? totalPosts.value : '',
+        impDates:impDates.value, appFee:appFee.value, ageLimit:ageLimit.value,
+        education:education.value, physical:physical.value, howToApply:howToApply.value,
+        modeSelect:modeSelect.value, importantLinks:importantLinks.value,
+        savedAt:new Date().toISOString()
+      };
+      let arr=[];try{arr=JSON.parse(localStorage.getItem('sarkari_demo_posts')||'[]') }catch(e){ arr = [] }
+      arr.push(obj); localStorage.setItem('sarkari_demo_posts', JSON.stringify(arr));
+      alert('Saved locally (demo). Open console to view object.');
+      console.log('Saved post (demo):', obj);
+    });
+    resetBtn.addEventListener('click', ()=>{ if(confirm('Reset all fields?')) document.getElementById('adminForm').reset(); generatePreview(); });
+    generatePreview();
+
+    $all('.removeRow').forEach(b=>b.addEventListener('click', e=> e.target.closest('tr').remove()));
+    document.getElementById('printBtn').onclick = () => {
+      generatePreview();
+      const content = document.getElementById('out-body').innerHTML;
+      const headerMetaHtml = document.getElementById('header-meta').outerHTML;
+      const titleHtml = `<div style="font-weight:900;font-size:22px;text-align:center;margin-bottom:6px;">Khorandi E-mitra Portal</div>`;
+      const headHtml = document.head.innerHTML;
+      const printStyles = `
+        <style>
+          ${document.querySelector('style').innerHTML}
+          @page { size: A4; margin: 12mm; }
+          body { background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+          .print-border { border:1px solid var(--print-border-color); padding:12px; box-sizing:border-box; }
+          .wm-fixed { position: fixed; transform: rotate(-30deg); opacity: 0.06; color: #666; font-size:48px; font-weight:700; pointer-events:none; user-select:none; z-index:0; }
+          .wm1 { top: 25%; left: 8%; }
+          .wm2 { top: 55%; left: 30%; }
+          .wm3 { top: 80%; left: 60%; }
+        </style>
+      `;
+      const fullHTML = `<!doctype html><html><head><meta charset="utf-8"><title>Print - Khorandi E-mitra Portal</title>${headHtml}${printStyles}</head>
+        <body>
+          <div class="wm-fixed wm1">Khorandi E-mitra Portal</div>
+          <div class="wm-fixed wm2">Khorandi E-mitra Portal</div>
+          <div class="wm-fixed wm3">Khorandi E-mitra Portal</div>
+
+          <div class="print-border">
+            ${titleHtml}
+            ${headerMetaHtml}
+            <div>${content}</div>
+          </div>
+        </body></html>`;
+
+      const w = window.open('', '', 'width=900,height=900');
+      w.document.write(fullHTML);
+      w.document.close();
+      w.focus();
+      setTimeout(()=> { w.print(); w.close(); }, 500);
+    };
+      document.addEventListener('click', function(e){
+      const el = e.target;
+      if (el.matches('.removeCat')) {
+        const tr = el.closest('tr');
+        if (tr) tr.remove();
+      }
+      if (el.matches('.removePost')) {
+        const pb = el.closest('.post-block');
+        if (pb) pb.remove();
+      }
+      if (el.matches('.removeTable')) {
+        const wrapper = el.closest('.table-wrapper');
+        if (wrapper) wrapper.remove();
+      }
+      if (el.matches('.addCat')) {
+        const pb = el.closest('.post-block');
+        if (pb) addCategory(pb);
+      }
+    });
+      function debounce(fn, wait=250){
+      let t;
+      return function(...args){ clearTimeout(t); t = setTimeout(()=> fn.apply(this,args), wait); };
+    }
+    $all('#adminForm input, #adminForm textarea').forEach(inp => {
+      inp.addEventListener('input', debounce(()=> { generatePreview(); }, 300));
+    });
+
+  </script>
+  </head>
+  </html>
